@@ -7,7 +7,7 @@ np.random.seed(123)
 print("Enhanced Preprocessing Pipeline with Advanced Feature Engineering")
 print("="*80)
 
-print("Loading datasets...")
+print("Loading datasets.")
 train_df = pd.read_csv('train.csv')
 test_df = pd.read_csv('test.csv')
 
@@ -25,7 +25,7 @@ print(f"  Columns: {list(test_df.columns)}")
 print(f"  Data types: {test_df.dtypes.value_counts().to_dict()}")
 
 print("\n" + "="*80)
-print("STARTING PREPROCESSING...")
+print("STARTING PREPROCESSING.")
 print("="*80)
 
 training_data = train_df.copy()
@@ -44,7 +44,7 @@ print(f"  Columns in train but not in test: {train_initial_cols - test_initial_c
 print(f"  Columns in test but not in train: {test_initial_cols - train_initial_cols}")
 print(f"  Common columns: {len(train_initial_cols & test_initial_cols)}")
 
-print(f"\nProcessing target variable...")
+print(f"\nProcessing target variable.")
 print(f"  Original target shape: {training_data['Transport_Cost'].shape}")
 print(f"  Original target stats:")
 print(f"    Mean: {training_data['Transport_Cost'].mean():.2f}")
@@ -95,7 +95,7 @@ if test_total_missing > 0:
 numerical_missing_features = ['Supplier_Reliability', 'Equipment_Height', 'Equipment_Width', 'Equipment_Weight', 'Equipment_Value']
 categorical_missing_features = ['Transport_Method', 'Equipment_Type', 'Rural_Hospital']
 
-print("\nComputing imputation statistics from training data exclusively...")
+print("\nComputing imputation statistics from training data exclusively.")
 fill_values = {}
 
 for feature in numerical_missing_features:
@@ -109,7 +109,7 @@ for feature in categorical_missing_features:
         fill_values[feature] = mode_result[0] if not mode_result.empty else 'Missing'
         print(f"  {feature}: mode = '{fill_values[feature]}'")
 
-print("Applying computed fill values to both datasets...")
+print("Applying computed fill values to both datasets.")
 for feature, fill_value in fill_values.items():
     if feature in training_data.columns:
         before_train = training_data[feature].isnull().sum()
@@ -123,7 +123,7 @@ for feature, fill_value in fill_values.items():
         after_test = testing_data[feature].isnull().sum()
         print(f"  Test {feature}: {before_test} -> {after_test} missing")
 
-print("\nExecuting feature engineering transformations...")
+print("\nExecuting feature engineering transformations.")
 
 training_data['OrderDate_parsed'] = pd.to_datetime(training_data['Order_Placed_Date'], format='%m/%d/%y', errors='coerce')
 training_data['DeliveryDate_parsed'] = pd.to_datetime(training_data['Delivery_Date'], format='%m/%d/%y', errors='coerce')
@@ -155,7 +155,7 @@ initial_duration_test = (testing_data['DeliveryDate_parsed'] - testing_data['Ord
 invalid_dates_mask_test = initial_duration_test < 0
 
 if invalid_dates_mask_test.any():
-    print(f"    Found {invalid_dates_mask_test.sum()} invalid date pairs in testing data - correcting...")
+    print(f"    Found {invalid_dates_mask_test.sum()} invalid date pairs in testing data - correcting.")
     testing_data.loc[invalid_dates_mask_test, ['OrderDate_parsed', 'DeliveryDate_parsed']] = \
         testing_data.loc[invalid_dates_mask_test, ['DeliveryDate_parsed', 'OrderDate_parsed']].values
 
@@ -175,7 +175,7 @@ print(f"  After feature engineering:")
 print(f"    Training shape: {training_data.shape}")
 print(f"    Testing shape: {testing_data.shape}")
 
-print("Combining datasets for consistent encoding...")
+print("Combining datasets for consistent encoding.")
 
 training_data['is_train'] = 1
 testing_data['is_train'] = 0
@@ -199,7 +199,7 @@ dtype_counts = combined_dataset.dtypes.value_counts()
 for dtype, count in dtype_counts.items():
     print(f"  {dtype}: {count} columns")
 
-print("Applying categorical encoding...")
+print("Applying categorical encoding.")
 
 binary_encoding_map = {'Yes': 1, 'No': 0}
 if 'Rural_Hospital' in combined_dataset.columns:
@@ -227,7 +227,7 @@ if existing_categorical:
     combined_dataset = pd.get_dummies(combined_dataset, columns=existing_categorical, drop_first=True, dtype=int)
     print(f"  After one-hot encoding: {combined_dataset.shape}")
 
-print("Performing final dataset separation...")
+print("Performing final dataset separation.")
 
 train_mask = combined_dataset['is_train'] == 1
 test_mask = combined_dataset['is_train'] == 0
@@ -244,7 +244,7 @@ print(f"    X_training: {X_training.shape}")
 print(f"    X_testing: {X_testing.shape}")
 print(f"    target_variable: {target_variable.shape}")
 
-print("Checking column consistency...")
+print("Checking column consistency.")
 train_cols = set(X_training.columns)
 test_cols = set(X_testing.columns)
 
@@ -257,7 +257,7 @@ print(f"  Columns in test but not in train: {cols_in_test_not_train}")
 print(f"  Common columns: {len(common_cols)}")
 
 if cols_in_train_not_test or cols_in_test_not_train:
-    print("  Fixing column inconsistencies...")
+    print("  Fixing column inconsistencies.")
 
     for col in cols_in_train_not_test:
         X_testing[col] = 0
@@ -272,7 +272,7 @@ if cols_in_train_not_test or cols_in_test_not_train:
     print(f"    X_training: {X_training.shape}")
     print(f"    X_testing: {X_testing.shape}")
 
-print("Final data quality checks...")
+print("Final data quality checks.")
 
 train_missing_final = X_training.isnull().sum().sum()
 test_missing_final = X_testing.isnull().sum().sum()
@@ -313,7 +313,7 @@ for i, col in enumerate(X_training.columns, 1):
 print("Preprocessing pipeline completed successfully (data remains unscaled).")
 
 print("\n" + "="*80)
-print("PREPROCESSING COMPLETE!")
+print("PREPROCESSING COMPLETE")
 print("="*80)
 
 print(f"Final processed shapes:")
@@ -329,13 +329,13 @@ if target_variable is not None:
     print(f"  Min: {target_variable.min():.4f}")
     print(f"  Max: {target_variable.max():.4f}")
 
-print(f"\nSaving processed datasets...")
+print(f"\nSaving processed datasets.")
 X_training.to_csv('X_train_processed.csv', index=False)
 X_testing.to_csv('X_test_processed.csv', index=False)
 target_variable.to_csv('y_train_processed.csv', index=False)
 test_hospital_ids.to_csv('test_ids.csv', index=False)
 
-print("Enhanced processed datasets saved successfully!")
+print("Enhanced processed datasets saved successfully")
 print("Files created:")
 print("- X_train_processed.csv")
 print("- X_test_processed.csv")
@@ -350,5 +350,6 @@ if len(train_df) != len(X_training):
     print(f"  Samples removed: {reduction} ({(reduction/len(train_df))*100:.2f}%)")
 
 print("\n" + "="*80)
-print("ENHANCED PREPROCESSING COMPLETED SUCCESSFULLY!")
+print("ENHANCED PREPROCESSING COMPLETED SUCCESSFULLY")
+
 print("="*80)
