@@ -18,7 +18,7 @@ def load_processed_datasets():
     X_train = pd.read_csv('X_train_processed_v5_enhanced.csv')
     y_train = pd.read_csv('y_train_processed_v5_enhanced.csv')
     X_test = pd.read_csv('X_test_processed_v5_enhanced.csv')
-    test_ids = pd.read_csv('test_ids_processed_v5_enhanced.csv')
+    test_ids = pd.read_csv('test_ids_v5_enhanced.csv')
 
     # Convert y_train to series if it's a DataFrame
     if isinstance(y_train, pd.DataFrame):
