@@ -19,8 +19,8 @@ def extensive_model_comparison():
     print("="*70)
 
     # Load data
-    X_train = pd.read_csv('X_train_processed_v5_enhanced.csv')
-    y_train = pd.read_csv('y_train_processed_v5_enhanced.csv')
+    X_train = pd.read_csv('X_train_processed.csv')
+    y_train = pd.read_csv('y_train_processed.csv')
 
     if isinstance(y_train, pd.DataFrame):
         y_train = y_train.iloc[:, 0]
