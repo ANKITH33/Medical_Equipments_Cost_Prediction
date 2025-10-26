@@ -15,10 +15,10 @@ def load_processed_datasets():
     Load the preprocessed datasets from the v5 preprocessing pipeline.
     """
     print("Loading preprocessed datasets...")
-    X_train = pd.read_csv('X_train_processed_v5_enhanced.csv')
-    y_train = pd.read_csv('y_train_processed_v5_enhanced.csv')
-    X_test = pd.read_csv('X_test_processed_v5_enhanced.csv')
-    test_ids = pd.read_csv('test_ids_v5_enhanced.csv')
+    X_train = pd.read_csv('X_train_processed.csv')
+    y_train = pd.read_csv('y_train_processed.csv')
+    X_test = pd.read_csv('X_test_processed.csv')
+    test_ids = pd.read_csv('test_ids.csv')
 
     # Convert y_train to series if it's a DataFrame
     if isinstance(y_train, pd.DataFrame):
